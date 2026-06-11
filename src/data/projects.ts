@@ -1,0 +1,166 @@
+import type { Project } from "@/types";
+export const projects: Project[] = [
+  {
+    slug: "rag-labif",
+    title: "RAG_LABIF - Laboratory Information Assistant",
+    description:
+      "Built a Retrieval-Augmented Generation (RAG) system using LangChain, a FAISS vector store, and a multilingual embedding model to extract, index, and query unstructured laboratory data through an automated natural-language AI assistant.",
+    tech: ["Python", "LangChain", "FAISS", "Gemini API", "Gradio"],
+    category: "AI/ML",
+    year: 2026,
+    image: "",
+    repoUrl: "https://github.com/Delixx07/RAG_LABIF",
+  },
+  {
+    slug: "lethimcook",
+    title: "LetHimCook - Recipe Recommender",
+    description:
+      "Built an AI-powered mobile cooking assistant using Flutter and Firebase, integrating an external AI API and on-device TensorFlow Lite models for health classification, alongside fuzzy-logic algorithms for dynamic ingredient-based recipe matching.",
+    tech: [
+      "Flutter",
+      "Firebase",
+      "Cloud Firestore",
+      "SQLite",
+      "TensorFlow Lite",
+      "AI API",
+    ],
+    category: "Mobile",
+    year: 2026,
+    image: "",
+    repoUrl: "https://github.com/Delixx07/LetHimCook.git",
+  },
+  {
+    slug: "rentix",
+    title: "RENTIX - Peer-to-Peer Gadget Rental Marketplace",
+    description:
+      "Built a full-stack peer-to-peer gadget rental marketplace using React and Supabase, integrating robust E-KYC verification, secure escrow transactions, and seamless state management to ensure safe and reliable user interactions.",
+    tech: ["React", "Supabase", "Zustand", "PostgreSQL"],
+    category: "Web",
+    year: 2026,
+    image: "",
+    repoUrl: "https://github.com/Delixx07/RENTIX.git",
+    demoUrl: "https://rentix-five.vercel.app/",
+  },
+  {
+    slug: "jumpedia",
+    title: "JumPedia - Educational Platformer Mobile Game",
+    description:
+      "Built backend and UI/UX features for an educational mobile platformer using Flutter and Riverpod, implementing real-time global leaderboards, full CRUD operations for AI-generated fun facts via Cloud Firestore, and custom profile image storage with Supabase.",
+    tech: [
+      "Flutter",
+      "Flame Engine",
+      "Firebase",
+      "Supabase",
+      "Gemini API",
+      "Riverpod",
+    ],
+    category: "Mobile",
+    year: 2026,
+    image: "",
+    repoUrl: "https://github.com/Delixx07/JumPedia.git",
+  },
+  {
+    slug: "AUDA",
+    title: "Auto-EDA Agent - Automated Data Analysis Tool",
+    description:
+      "Built an automated Exploratory Data Analysis (EDA) Python library with a Gradio web interface, integrating rule-based algorithms and a Groq LLM to streamline data preprocessing, generate contextual feature recommendations, and evaluate machine learning performance.",
+    tech: ["Python", "Pandas", "Scikit-Learn", "Groq LLM", "Gradio"],
+    category: "AI/ML",
+    year: 2026,
+    image: "",
+    repoUrl: "https://github.com/Delixx07/auto-eda-agent.git",
+  },
+  {
+    slug: "mentech",
+    title: "MenTech - Mental Health Platform for ITS Students",
+    description:
+      "Built a full-stack mental health platform for ITS students featuring DASS-21 psychological assessment, mood tracking, CBT-based resources, and anonymous community support, with role-based authentication and a comprehensive QA testing process.",
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Prisma",
+      "Tailwind CSS",
+      "JWT",
+    ],
+    category: "Web",
+    year: 2026,
+    image: "",
+    repoUrl: "https://github.com/capstone-if-26/CAPSTONE24",
+    featured: true,
+  },
+  {
+    slug: "xenotimes",
+    title: "Xenotimes - AI Powered News Analyzer Platform",
+    description:
+      "Built a full-stack news platform that classifies articles as Facts, Opinions, or Hoaxes using an AI API, with a decoupled Python microservice on Hugging Face handling AI inference and web scraping.",
+    tech: ["Next.js", "TypeScript", "Python", "Supabase", "AI API"],
+    category: "AI/ML",
+    year: 2026,
+    image: "",
+    repoUrl: "https://github.com/pbkk-c/fe-be-pbkk.git",
+    demoUrl: "https://youtu.be/4rGNE7a9D10?si=1GszqFMZoJnly6iS",
+    featured: true,
+  },
+  {
+    slug: "academiq",
+    title: "AcademiQ - Student GPA Prediction System",
+    description:
+      "Built a machine learning model to predict student GPA based on behavioral and socioeconomic factors such as study hours, sleep, stress level, and social media usage, deployed with an interactive Gradio web interface.",
+    tech: ["Python", "Scikit-learn", "XGBoost", "Random Forest", "Gradio"],
+    category: "AI/ML",
+    year: 2026,
+    image: "",
+    repoUrl:
+      "https://drive.google.com/file/d/1IQZ3VySIOK4pgRFOPMmPqHXsbQ14bJqL/view",
+  },
+  {
+    slug: "game-of-bones",
+    title: "Game of Bones - 2 Player Networked Platformer Game",
+    description:
+      "Built a 2-player networked platformer game using Python and Pygame, implementing a client-server architecture over HTTP to handle real-time player interactions and multi-stage gameplay.",
+    tech: ["Python", "Pygame", "Client-Server Architecture"],
+    category: "Game",
+    year: 2026,
+    image: "",
+    repoUrl: "https://github.com/eligeraldine/Game-Of_Bones",
+    demoUrl: "https://drive.google.com/file/d/1PVyM5SpmqVoDFqgxOVIA8JYIhT5lySTH/view?usp=drivesdk",
+  },
+  {
+    slug: "gosong-cooking",
+    title: "Gosong Cooking - Cooking Simulation Game",
+    description:
+      "Built a single-player cooking simulation game using C# and Unity, applying Object-Oriented Programming principles and SOLID architecture to manage a dynamic recipe system, kitchen interaction mechanics, and a player achievement system.",
+    tech: ["C#", "Unity", "OOP"],
+    category: "Game",
+    year: 2024,
+    image: "",
+    repoUrl:
+      "https://github.com/PBO-D-2024-2025/final-project-oop-d-2024-2025-gasal-boboiboykuasa3",
+    demoUrl: "https://www.youtube.com/watch?v=k9vcOy5YI9Q&feature=youtu.be",
+    featured: true,
+  },
+  {
+    slug: "healthpal",
+    title: "HealthPal - Healthcare Web Platform",
+    description:
+      "Built a full-featured healthcare web platform enabling doctor listings, appointment booking, online medical consultations, and health-news aggregation.",
+    tech: ["HTML", "CSS", "JavaScript"],
+    category: "Web",
+    year: 2024,
+    image: "",
+    repoUrl: "https://github.com/xoxonn/HealthPal",
+  },
+  {
+    slug: "dexgame",
+    title: "DexGame - Interactive Web Game",
+    description:
+      "Built an interactive web-based game using HTML, CSS, and JavaScript, implementing core game logic and dynamic DOM manipulation to deliver a lightweight and engaging browser experience.",
+    tech: ["HTML", "CSS", "JavaScript"],
+    category: "Game",
+    year: 2024,
+    image: "",
+    repoUrl: "https://github.com/Delixx07/DexGame",
+    demoUrl: "https://delixx07.github.io/DexGame/",
+  },
+];
