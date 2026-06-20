@@ -15,10 +15,9 @@ export const profile: Profile = {
   email: "dustinfelix01@gmail.com",
   cvUrl: "", // e.g. "/cv.pdf"
   location: "Indonesia, Surabaya",
-  // 👇 GANTI "username" di bawah dengan username Anda masing-masing.
   socials: [
-    { label: "GitHub", url: "https://github.com/username", icon: "Github" },
-    { label: "LinkedIn", url: "https://linkedin.com/in/username", icon: "Linkedin" },
-    { label: "Instagram", url: "https://instagram.com/username", icon: "Instagram" },
+    { label: "GitHub", url: "https://github.com/Delixx07", icon: "Github" },
+    { label: "LinkedIn", url: "https://linkedin.com/in/dustinfelix/", icon: "Linkedin" },
+    { label: "Instagram", url: "https://instagram.com/dustinfelix_", icon: "Instagram" },
   ],
 };

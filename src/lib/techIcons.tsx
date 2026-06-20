@@ -63,27 +63,63 @@ const TECH: Record<string, { Icon: IconType; color: string }> = {
   FAISS: { Icon: FaBrain, color: "#2C5EAD" },
 };
 
-export function getTechIcon(name: string) {
-  return TECH[name] ?? null;
-}
+/**
+ * Curated groupings of the tech stack for the About section. Each group lists
+ * tech names; only those that (a) have an icon and (b) actually appear in the
+ * project data are rendered. "Scikit-learn"/"Scikit-Learn" are deduped by icon.
+ */
+const TECH_GROUPS: { label: string; items: string[] }[] = [
+  { label: "Languages", items: ["Python", "TypeScript", "JavaScript", "HTML", "CSS"] },
+  {
+    label: "Frameworks & Libraries",
+    items: ["React", "Next.js", "Flutter", "Tailwind CSS", "Prisma"],
+  },
+  {
+    label: "AI / ML",
+    items: ["TensorFlow Lite", "Scikit-Learn", "Pandas", "LangChain", "Gemini API", "FAISS"],
+  },
+  {
+    label: "Tools & Platforms",
+    items: ["Firebase", "Supabase", "PostgreSQL", "SQLite", "Unity"],
+  },
+];
+
+export type TechIcon = { name: string; Icon: IconType; color: string };
 
 /**
- * De-duplicated, ordered list of techs (across all projects) that actually
- * have an icon — used for the About tech-stack row.
+ * Returns the curated groups filtered to techs that have an icon AND appear in
+ * the given project tech lists. Empty groups are dropped. Anything present in
+ * the data but not assigned to a group is appended under "Other".
  */
-export function collectTechIcons(techLists: string[][]) {
-  const seen = new Set<string>();
-  const out: { name: string; Icon: IconType; color: string }[] = [];
-  for (const list of techLists) {
-    for (const name of list) {
-      if (seen.has(name)) continue;
+export function collectTechGroups(
+  techLists: string[][]
+): { label: string; items: TechIcon[] }[] {
+  const present = new Set(techLists.flat());
+  const used = new Set<string>();
+
+  const groups = TECH_GROUPS.map((g) => {
+    const items: TechIcon[] = [];
+    for (const name of g.items) {
       const hit = TECH[name];
-      if (!hit) continue;
-      seen.add(name);
-      out.push({ name, ...hit });
+      if (!hit || !present.has(name) || used.has(name)) continue;
+      used.add(name);
+      items.push({ name, ...hit });
+    }
+    return { label: g.label, items };
+  }).filter((g) => g.items.length > 0);
+
+  // Catch any iconed tech in the data that wasn't placed in a group.
+  const leftovers: TechIcon[] = [];
+  for (const name of present) {
+    const hit = TECH[name];
+    if (hit && !used.has(name)) {
+      used.add(name);
+      leftovers.push({ name, ...hit });
     }
   }
-  return out;
+  if (leftovers.length) groups.push({ label: "Other", items: leftovers });
+
+  return groups;
 }
 
 /**

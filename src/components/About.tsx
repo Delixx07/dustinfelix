@@ -1,8 +1,9 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Reveal from "./Reveal";
 import CountUp from "./CountUp";
-import { collectTechIcons } from "@/lib/techIcons";
+import { collectTechGroups } from "@/lib/techIcons";
 import type { Profile, Project } from "@/types";
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
@@ -28,8 +29,8 @@ export default function About({
     { label: "Technologies", value: techCount, suffix: "+" },
   ];
 
-  // Real technologies (across all projects) that have a brand icon.
-  const techIcons = collectTechIcons(projects.map((p) => p.tech));
+  // Curated, labeled groups of the real tech stack (Languages, Frameworks, …).
+  const techGroups = collectTechGroups(projects.map((p) => p.tech));
 
   return (
     <section id="about" className="mx-auto max-w-5xl px-4 py-24">
@@ -37,41 +38,70 @@ export default function About({
         <SectionTitle>About Me</SectionTitle>
       </Reveal>
 
-      {/* Bio card — fades + slides up on scroll into view */}
+      {/* "Who I am" — bio + tech grouped together in one soft container so they
+          read as a single block, visually separate from the stats row below. */}
       <Reveal delay={0.1}>
-        <div className="glass mx-auto mt-8 max-w-3xl rounded-3xl p-8 text-center">
-          <p className="text-lg leading-relaxed text-slate-700">{profile.about}</p>
+        <div className="mx-auto mt-8 max-w-3xl rounded-3xl border border-[#4BB8FA]/20 bg-white/40 p-6 sm:p-8">
+          {/* Bio */}
+          <p className="text-center text-lg leading-relaxed text-slate-700">
+            {profile.about}
+          </p>
+
+          {/* Tech stack — grouped + labeled */}
+          {techGroups.length > 0 && (
+            <div className="mt-8 border-t border-[#4BB8FA]/20 pt-6">
+              <p className="mb-5 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Technologies I&apos;ve worked with
+              </p>
+
+              <div className="flex flex-col gap-5">
+                {techGroups.map((group, gi) => (
+                  <motion.div
+                    key={group.label}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ duration: 0.4, delay: gi * 0.08, ease: "easeOut" }}
+                    className="flex flex-col items-center gap-3 sm:flex-row sm:items-start"
+                  >
+                    {/* group label */}
+                    <span className="w-full shrink-0 text-center text-xs font-semibold text-[#2C5EAD] sm:w-40 sm:pt-2 sm:text-right">
+                      {group.label}
+                    </span>
+
+                    {/* icons with always-visible captions (Option A) */}
+                    <div className="flex flex-wrap justify-center gap-3 sm:justify-start">
+                      {group.items.map((tech) => (
+                        <div
+                          key={tech.name}
+                          className="flex w-16 flex-col items-center gap-1.5"
+                          title={tech.name}
+                        >
+                          <div className="glass flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 hover:scale-110">
+                            <tech.Icon
+                              className="h-6 w-6"
+                              style={{ color: tech.color }}
+                              aria-label={tech.name}
+                            />
+                          </div>
+                          <span className="w-full truncate text-center text-[10px] leading-tight text-slate-500">
+                            {tech.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </Reveal>
 
-      {/* Tech stack icon row — real techs, hover-scale + tooltip */}
-      {techIcons.length > 0 && (
-        <Reveal delay={0.15}>
-          <div className="mt-8">
-            <p className="mb-4 text-center text-xs font-medium uppercase tracking-wider text-slate-400">
-              Technologies I&apos;ve worked with
-            </p>
-            <div className="mx-auto flex max-w-3xl flex-wrap justify-center gap-3">
-              {techIcons.map(({ name, Icon, color }) => (
-                <div key={name} className="group relative">
-                  <div className="glass flex h-12 w-12 items-center justify-center rounded-xl transition-transform duration-200 hover:scale-110">
-                    <Icon className="h-6 w-6" style={{ color }} aria-label={name} />
-                  </div>
-                  {/* Tooltip */}
-                  <span className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#14233f] px-2 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-                    {name}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      )}
-
-      {/* Stat cards — staggered scroll-in, numbers count up from 0 */}
-      <div className="mt-10 grid grid-cols-3 gap-4">
+      {/* "The numbers" — stat cards, staggered scroll-in, count up from 0 */}
+      <div className="mt-6 grid grid-cols-3 gap-4">
         {stats.map((s, i) => (
-          <Reveal key={s.label} delay={0.2 + i * 0.1}>
+          <Reveal key={s.label} delay={i * 0.1}>
             <div className="glass rounded-2xl p-6 text-center">
               <CountUp
                 end={s.value}

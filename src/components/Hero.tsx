@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import {
   motion,
   useMotionValue,
+  useScroll,
   useSpring,
   useTransform,
 } from "framer-motion";
@@ -60,6 +61,19 @@ export default function Hero({ profile }: { profile: Profile }) {
   const py = useMotionValue(0);
   const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [8, -8]), SPRING);
   const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-8, 8]), SPRING);
+
+  // --- Parallax exit (Improvement 3): scroll progress through the Hero's own
+  // height. offset start->end means 0 at top, 1 when the hero has scrolled fully
+  // out. Text fades faster + drifts more than the photo → layered depth cue.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+  const textY = useTransform(scrollYProgress, [0, 0.6], [0, -90]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const photoY = useTransform(scrollYProgress, [0, 0.8], [0, -50]);
+  const photoScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.92]);
+  const photoOpacity = useTransform(scrollYProgress, [0, 0.65], [1, 0]);
 
   // Throttle cursor handlers to one update per animation frame. Without this,
   // mousemove fires far more often than the screen refreshes and floods the
@@ -136,8 +150,11 @@ export default function Hero({ profile }: { profile: Profile }) {
       )}
 
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-2">
-        {/* ---------- LEFT: text ---------- */}
-        <div className="order-2 text-center md:order-1 md:text-left">
+        {/* ---------- LEFT: text (parallax exit — fades faster, drifts more) ---------- */}
+        <motion.div
+          style={{ y: textY, opacity: textOpacity }}
+          className="order-2 text-center md:order-1 md:text-left"
+        >
           {profile.location ? (
             <motion.span
               initial={{ opacity: 0, y: 10 }}
@@ -157,9 +174,7 @@ export default function Hero({ profile }: { profile: Profile }) {
             className="text-balance text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl md:text-7xl"
           >
             Hi, I am{" "}
-            <span className="bg-gradient-to-r from-[#2C5EAD] via-[#1591DC] to-[#4BB8FA] bg-clip-text text-transparent">
-              {profile.name}
-            </span>
+            <span className="gradient-text-animated">{profile.name}</span>
           </motion.h1>
 
           <motion.p
@@ -177,7 +192,7 @@ export default function Hero({ profile }: { profile: Profile }) {
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
             className="mt-8 flex flex-wrap items-center justify-center gap-3 md:justify-start"
           >
-            {/* Magnetic CTA buttons (3.5.D) */}
+            {/* Magnetic CTA buttons (3.5.D) — primary filled + secondary outline */}
             <Magnetic>
               <a
                 href="#projects"
@@ -186,29 +201,33 @@ export default function Hero({ profile }: { profile: Profile }) {
                 View Projects
               </a>
             </Magnetic>
-            {profile.cvUrl ? (
-              <Magnetic>
-                <a
-                  href={profile.cvUrl}
-                  download
-                  className="glass inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[#2C5EAD] transition-transform hover:scale-105"
-                >
-                  <Download className="h-4 w-4" />
-                  Download CV
-                </a>
-              </Magnetic>
-            ) : null}
+            {/* Download CV — secondary outline button. Real download link via
+                the `download` attr; drop the PDF at /public/files/ to enable. */}
+            <Magnetic>
+              <a
+                href={profile.cvUrl || "/files/Dustin_Felix_CV.pdf"}
+                download
+                className="inline-flex items-center gap-2 rounded-full border-2 border-[#2C5EAD]/40 bg-white/40 px-6 py-3 text-sm font-semibold text-[#2C5EAD] transition-all hover:scale-105 hover:border-[#2C5EAD] hover:bg-white/70"
+              >
+                <Download className="h-4 w-4" />
+                Download CV
+              </a>
+            </Magnetic>
           </motion.div>
-        </div>
+        </motion.div>
 
-        {/* ---------- RIGHT: cutout photo + floaters ---------- */}
+        {/* ---------- RIGHT: cutout photo + floaters (parallax exit — slower) ---------- */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+          style={{ y: photoY, scale: photoScale, opacity: photoOpacity }}
           className="order-1 flex justify-center md:order-2"
-          style={{ perspective: 1000 }}
         >
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="flex justify-center"
+            style={{ perspective: 1000 }}
+          >
           <div
             onMouseMove={handlePhotoMove}
             onMouseLeave={resetPhoto}
@@ -253,17 +272,23 @@ export default function Hero({ profile }: { profile: Profile }) {
               </div>
             ))}
           </div>
+          </motion.div>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — clickable (smooth-scrolls to About, consistent with
+          navbar anchor links), with a clear hover affordance + gentle bounce. */}
       <motion.a
         href="#about"
-        aria-label="Scroll down"
+        aria-label="Scroll down to About"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{ opacity: { delay: 1 }, y: { repeat: Infinity, duration: 1.8 } }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[#1591DC]"
+        transition={{
+          opacity: { delay: 1 },
+          y: { repeat: Infinity, duration: 1.8, ease: "easeInOut" },
+        }}
+        whileHover={{ scale: 1.25 }}
+        className="absolute bottom-8 left-1/2 flex -translate-x-1/2 cursor-pointer items-center justify-center rounded-full p-2 text-[#1591DC] transition-colors hover:text-[#2C5EAD]"
       >
         <ArrowDown className="h-6 w-6" />
       </motion.a>
@@ -291,16 +316,19 @@ function HeroPhoto({ src, name }: { src: string; name: string }) {
     );
   }
 
-  // Cutout mode: transparent PNG shown at its native 2:3 ratio with no card
-  // behind it, so the hero background shows through. Soft drop-shadow gives
-  // the figure a little lift off the background.
+  // Cutout mode: transparent PNG at its native 2:3 ratio, no card behind it.
+  // NOTE: no CSS `drop-shadow` filter here — re-evaluating a filter on a large
+  // transparent image every tilt frame was the main cause of the jank.
+  // transform-gpu + translateZ(0) promotes it to its own compositor layer so
+  // the 3D tilt is a cheap transform of an already-rasterized layer.
   return (
     <Image
       src={src}
       alt={name}
       fill
       sizes="(max-width: 768px) 15rem, 20rem"
-      className="object-contain object-bottom drop-shadow-[0_20px_35px_rgba(20,35,63,0.25)]"
+      className="transform-gpu object-contain object-bottom"
+      style={{ transform: "translateZ(0)" }}
       loading="eager"
       // Serve the original transparent PNG as-is. Next's optimizer re-encodes
       // to lossy WebP which DROPS the alpha channel — turning the cutout's
