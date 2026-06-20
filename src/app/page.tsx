@@ -16,7 +16,7 @@ export default function Home() {
         <Projects projects={projects} />
         <Contact profile={profile} />
       </main>
-      <footer className="border-t border-white/10 py-8 text-center text-sm text-white/40">
+      <footer className="border-t border-[#4BB8FA]/20 py-8 text-center text-sm text-slate-400">
         © {new Date().getFullYear()} {profile.name}. Built with Next.js.
       </footer>
     </>

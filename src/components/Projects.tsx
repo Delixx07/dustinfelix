@@ -37,7 +37,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
         <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">
           Projects
         </h2>
-        <p className="mx-auto mt-2 max-w-xl text-center text-white/60">
+        <p className="mx-auto mt-2 max-w-xl text-center text-slate-500">
           A collection of work I&apos;ve built. Filter by category or search.
         </p>
       </Reveal>
@@ -46,12 +46,12 @@ export default function Projects({ projects }: { projects: Project[] }) {
       <Reveal delay={0.1}>
         <div className="mt-8 flex flex-col items-center gap-4">
           <div className="glass flex w-full max-w-md items-center gap-2 rounded-full px-4 py-2.5">
-            <Search className="h-4 w-4 text-white/50" />
+            <Search className="h-4 w-4 text-[#1591DC]" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search projects or technologies..."
-              className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/40"
+              className="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400"
             />
           </div>
 
@@ -61,7 +61,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                 key={cat}
                 onClick={() => setActive(cat)}
                 className={`relative rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                  active === cat ? "text-white" : "text-white/60 hover:text-white"
+                  active === cat ? "text-[#2C5EAD]" : "text-slate-500 hover:text-[#2C5EAD]"
                 }`}
               >
                 {active === cat && (
@@ -91,7 +91,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
       </motion.div>
 
       {filtered.length === 0 && (
-        <p className="mt-12 text-center text-white/50">
+        <p className="mt-12 text-center text-slate-400">
           No matching projects. Try another keyword or category.
         </p>
       )}

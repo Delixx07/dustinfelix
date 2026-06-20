@@ -34,7 +34,7 @@ export default function Navbar({ name }: { name: string }) {
       >
         <a
           href="#home"
-          className="bg-gradient-to-r from-indigo-300 to-pink-300 bg-clip-text text-sm font-bold tracking-tight text-transparent sm:text-base"
+          className="bg-gradient-to-r from-[#2C5EAD] to-[#1591DC] bg-clip-text text-sm font-bold tracking-tight text-transparent sm:text-base"
         >
           {name.split(" ")[0] || "Portfolio"}
         </a>
@@ -43,7 +43,7 @@ export default function Navbar({ name }: { name: string }) {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="rounded-full px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:bg-white/10 hover:text-white sm:text-sm"
+                className="rounded-full px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-[#4BB8FA]/15 hover:text-[#2C5EAD] sm:text-sm"
               >
                 {link.label}
               </a>

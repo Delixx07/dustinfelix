@@ -27,6 +27,7 @@ export const projects: Project[] = [
     category: "Mobile",
     year: 2026,
     image: "",
+    demoUrl: "https://drive.google.com/file/d/1wtJIzOs_rN2UPvfBWh-ctvFPay-NdXPF/view",
     repoUrl: "https://github.com/Delixx07/LetHimCook.git",
   },
   {
@@ -57,6 +58,7 @@ export const projects: Project[] = [
     category: "Mobile",
     year: 2026,
     image: "",
+    demoUrl: "https://drive.google.com/file/d/1cZO1WfWCbyeKZ9_HPBDZFz5ml9gitrqB/view",
     repoUrl: "https://github.com/Delixx07/JumPedia.git",
   },
   {
@@ -86,6 +88,7 @@ export const projects: Project[] = [
     category: "Web",
     year: 2026,
     image: "",
+    demoUrl: "https://mentech-chi.vercel.app/",
     repoUrl: "https://github.com/capstone-if-26/CAPSTONE24",
     featured: true,
   },

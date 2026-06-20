@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0b1020;
-  --foreground: #e8ecf6;
+  /* Palet biru lembut — humanize, light theme */
+  --background: #eef6fd; /* putih kebiruan (turunan #C4E2F5) */
+  --foreground: #14233f; /* navy gelap untuk teks (turunan #2C5EAD) */
+
+  --brand-900: #2c5ead; /* indigo blue */
+  --brand-600: #1591dc; /* azure */
+  --brand-400: #4bb8fa; /* sky */
+  --brand-200: #c4e2f5; /* light sky */
 }
 
 @theme inline {
@@ -31,9 +37,9 @@ body::before {
   inset: -20%;
   z-index: -2;
   background:
-    radial-gradient(40% 40% at 20% 20%, rgba(99, 102, 241, 0.35), transparent 60%),
-    radial-gradient(45% 45% at 80% 15%, rgba(236, 72, 153, 0.28), transparent 60%),
-    radial-gradient(50% 50% at 60% 80%, rgba(34, 211, 238, 0.25), transparent 60%);
+    radial-gradient(40% 40% at 20% 20%, rgba(44, 94, 173, 0.30), transparent 60%),
+    radial-gradient(45% 45% at 80% 15%, rgba(21, 145, 220, 0.26), transparent 60%),
+    radial-gradient(50% 50% at 60% 80%, rgba(75, 184, 250, 0.24), transparent 60%);
   filter: blur(40px) saturate(140%);
   animation: aurora 18s ease-in-out infinite alternate;
 }
@@ -45,8 +51,8 @@ body::after {
   inset: 0;
   z-index: -1;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    linear-gradient(rgba(44, 94, 173, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(44, 94, 173, 0.05) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
 }
@@ -62,21 +68,31 @@ body::after {
 
 /* === Utility glassmorphism === */
 @utility glass {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(16px) saturate(160%);
   -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 8px 32px rgba(44, 94, 173, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 @utility glass-strong {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 32px rgba(44, 94, 173, 0.18);
+}
+
+/* Lightweight "glass" look WITHOUT backdrop-filter. backdrop-blur is very
+   GPU-expensive, especially on many small animated elements — using a solid
+   translucent white here for the floating badges/icons removes that cost
+   while keeping the frosted appearance. */
+@utility glass-lite {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(44, 94, 173, 0.14);
 }
 
 /* Scrollbar gelap tipis */
@@ -87,14 +103,30 @@ body::after {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(44, 94, 173, 0.35);
   border-radius: 99px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(44, 94, 173, 0.6);
   background-clip: content-box;
+}
+
+/* Slow, continuous float for hero badges & tech icons (static fallback used
+   on touch devices and as the resting animation beneath magnetic pull). */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -102,6 +134,9 @@ body::after {
     scroll-behavior: auto;
   }
   body::before {
+    animation: none;
+  }
+  .animate-float {
     animation: none;
   }
 }
