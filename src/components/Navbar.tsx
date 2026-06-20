@@ -36,7 +36,7 @@ export default function Navbar({ name }: { name: string }) {
           href="#home"
           className="bg-gradient-to-r from-[#2C5EAD] to-[#1591DC] bg-clip-text text-sm font-bold tracking-tight text-transparent sm:text-base"
         >
-          {name.split(" ")[0] || "Portfolio"}
+          {name || "Portfolio"}
         </a>
         <ul className="flex items-center gap-1 sm:gap-2">
           {links.map((link) => (
