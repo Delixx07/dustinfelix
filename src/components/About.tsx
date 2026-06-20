@@ -33,7 +33,7 @@ export default function About({
   const techGroups = collectTechGroups(projects.map((p) => p.tech));
 
   return (
-    <section id="about" className="mx-auto max-w-5xl px-4 py-24">
+    <section id="about" className="relative isolate mx-auto max-w-5xl px-4 py-24">
       <Reveal>
         <SectionTitle>About Me</SectionTitle>
       </Reveal>
@@ -41,7 +41,20 @@ export default function About({
       {/* "Who I am" — bio + tech grouped together in one soft container so they
           read as a single block, visually separate from the stats row below. */}
       <Reveal delay={0.1}>
-        <div className="mx-auto mt-8 max-w-3xl rounded-3xl border border-[#4BB8FA]/20 bg-white/40 p-6 sm:p-8">
+        <div className="relative mx-auto mt-8 max-w-3xl">
+          {/* Decorative blobs behind the card — same blue language as the Hero,
+              low opacity + blurred, peeking out from the card's edges to tie the
+              section visually to the Hero. Purely ornamental. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-10 -top-10 -z-10 h-44 w-44 rounded-full bg-[#4BB8FA]/30 blur-3xl"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -bottom-12 -right-8 -z-10 h-52 w-52 rounded-full bg-[#2C5EAD]/20 blur-3xl"
+          />
+
+          <div className="rounded-3xl border border-[#4BB8FA]/20 bg-white/40 p-6 backdrop-blur-sm sm:p-8">
           {/* Bio */}
           <p className="text-center text-lg leading-relaxed text-slate-700">
             {profile.about}
@@ -95,6 +108,7 @@ export default function About({
               </div>
             </div>
           )}
+          </div>
         </div>
       </Reveal>
 

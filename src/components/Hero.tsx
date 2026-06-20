@@ -124,12 +124,12 @@ export default function Hero({ profile }: { profile: Profile }) {
         className="pointer-events-none absolute inset-0 -z-20 bg-cover bg-center"
         style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
       />
-      {/* Overlay — the current page background colour at partial opacity, so the
-          bg image reads as a soft tinted texture (the "opacity play" you asked
-          for). Adjust the /85 alpha to taste. */}
+      {/* Overlay — page background colour at ~45% so the photo shows through
+          more clearly. A left-to-right gradient keeps it a touch denser behind
+          the text column (left) for readability, lighter on the right. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[#eef6fd]/85"
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-r from-[#eef6fd]/75 via-[#eef6fd]/45 to-[#eef6fd]/35"
       />
 
       {/* Cursor-aware ambient glow (3.5.C) — a soft blue circle translated to
